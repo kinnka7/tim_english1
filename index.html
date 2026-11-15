@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161826">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Englisch">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23161826'/%3E%3Ctext x='50' y='66' font-family='Arial' font-size='46' font-weight='700' fill='%239184d9' text-anchor='middle'%3EFR%3C/text%3E%3C/svg%3E">
+<title>Englisch · Tim</title>
+<style>
+:root{--bg:#161826;--card:#20233a;--card2:#2a2e4a;--text:#e9e9ed;--mute:#9397ab;--line:#3a3f5c;--accent:#9184d9;--accent-l:#d2cefd;--accent-m:#b5abfc;--accent-d:#423a6a;--bad:#75798c;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text)}
+body{font-family:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%;
+  background:radial-gradient(900px 500px at 0% 0%,#2b2741,transparent 70%),var(--bg);min-height:100vh;
+  padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0)}
+#app{max-width:760px;margin:0 auto;padding:28px 20px 64px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3,h6{margin:0;font-weight:600}
+h1{font-size:clamp(30px,7vw,44px);letter-spacing:-.02em;line-height:1.1}
+h2{font-size:28px;letter-spacing:-.01em}
+h3{font-size:22px}
+h6{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+h6.acc{color:var(--accent-m)}
+p{margin:0}
+.mute{color:var(--mute)}
+.col{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 6px 18px rgba(0,0,0,.25)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:10px;padding:10px 16px;min-height:44px;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--accent)}
+.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#14112a;font-weight:600}
+.btn.pri:hover{background:var(--accent-m)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--accent-l)}
+.btn.ghost:hover{border-color:var(--line)}
+.btn.sel{background:var(--accent);border-color:var(--accent);color:#14112a;font-weight:600}
+.btn.key{min-width:42px;padding:6px 10px;min-height:42px;font-size:18px}
+.btn.opt{width:100%;text-align:left;font-size:18px}
+.topic{text-align:left;width:100%;border:0;display:flex;flex-direction:column;gap:2px;padding:16px 20px}
+.topic b{font-size:17px;font-weight:600}
+.topic span{font-size:13px;color:var(--mute)}
+.input{font:inherit;font-size:20px;color:var(--text);background:#12142a;border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-height:46px;width:100%;max-width:100%}
+.input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.input.sm{width:min(240px,100%)}
+.input:disabled{opacity:.6}
+.hint{font-size:13px;color:var(--mute)}
+.top{display:flex;align-items:center;gap:14px}
+.prog{flex:1;height:4px;border-radius:2px;background:#3f424d}
+.prog i{display:block;height:4px;border-radius:2px;background:var(--accent);transition:width .25s}
+.main{font-size:clamp(26px,6vw,34px);line-height:1.2;font-weight:600;letter-spacing:-.015em}
+.sent{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:22px;line-height:1.5}
+.back{font-size:26px;color:var(--accent-l);font-weight:600}
+.fb{display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:12px;background:var(--card)}
+.fb .ic{font-size:26px;line-height:1}
+.note{font-size:14px;color:var(--accent-l)}
+.bars{display:flex;gap:32px;align-items:flex-end;margin-top:8px}
+.bar{position:relative;width:96px;display:flex;flex-direction:column;gap:6px;cursor:pointer}
+.bar .n{font-size:22px;font-weight:600}
+.bar .b{min-height:3px;border-radius:6px;transition:height .25s}
+.bar .l{font-size:13px;color:var(--mute)}
+.pop{display:none;position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;min-width:190px;max-width:300px;max-height:220px;overflow:auto;padding:12px 16px;flex-direction:column;gap:4px;font-size:14px;background:var(--card2);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.pop.on,.bar:hover .pop{display:flex}
+.score{font-size:72px;line-height:1;font-weight:600;color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:500;font-size:13px}
+.tag{display:inline-block;padding:2px 12px;border-radius:99px;background:var(--accent-d);color:var(--accent-l);font-size:14px}
+.sp{height:1px;width:240px;background:linear-gradient(90deg,var(--accent),transparent)}
+.mr{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.mr span:last-child{color:var(--accent-l)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ===================== DATEN START: nur diesen Block ändern =====================
+const PAGE_TITLE = "Englisch · Tim";
+const KICKER = "Englisch · neue Wörter";
+const GREETING = "Hello Tim,";
+const GRAMMAR_SUB = "Simple Present, to be …";
+const KEY = "tim-englisch-v1";  // pro App einen eigenen Namen wählen
+
+// Bereiche für die Wörter (Schlüssel 'a', 'b', ... passen zur ersten Spalte in V)
+const SRC = {"all": "Alle Wörter", "a": "Pick-up A · I’m from Greenwich", "b": "Unit 1 · Check-in: It’s fun at home", "c": "Unit 1 · Station 1: This is my family / Station 2: What’s the problem?", "d": "Unit 1 · My fantasy house / Where’s Mr Fluff?", "e": "Pick-up B · This is fun!"};
+const SRCK = ["a", "b", "c", "d", "e"];
+
+// Wörter: [Bereich, Wort, Deutsch, Beispielsatz mit {Lücke}, Übersetzung, Hinweis, [weitere richtige Antworten]]
+const V = [
+  ["a", "I'm from Greenwich.", "Ich bin aus Greenwich.", "{I'm} from Germany.", "", "Achtung Aussprache.", []],
+  ["a", "Look!", "Schau/Schaut mal!", "{Look}, a boy and a dog!", "", "", []],
+  ["a", "two boys and a dog", "zwei Jungen und ein Hund; zwei Buben und ein Hund", "", "", "", []],
+  ["a", "in Greenwich Park", "im Greenwich-Park", "Look! Two boys and a dog {in Greenwich Park}.", "", "", []],
+  ["a", "Dogs are my friends, but not cats.", "Hunde sind meine Freunde, aber Katzen nicht.", "", "", "Wenn man are nicht betont, spricht man es [ə].", []],
+  ["a", "I'm a mouse.", "Ich bin eine Maus.", "", "", "", []],
+  ["a", "mouse (sg), mice (pl)", "Maus, Mäuse (Pl.)", "one {mouse} – two mice", "", "", []],
+  ["a", "Here's your ball.", "Hier ist dein Ball.", "{Here's} Luke.", "", "", []],
+  ["a", "Hello.", "Hallo.; Grüß Gott.; Servus.", "", "", "", []],
+  ["a", "I'm Pia.", "Ich heiße Pia.; Ich bin Pia.", "Hello, {I'm} Pia.", "", "", []],
+  ["a", "You're a nice dog.", "Du bist ein lieber Hund.", "{You're} a nice dog, Sherlock.", "", "", []],
+  ["a", "What's your name?", "Wie heißt du?; Wie heißen Sie?", "{What's your name}? – I'm Olivia.", "", "", []],
+  ["a", "Sorry!", "Entschuldigung!; Tut mir leid!", "", "", "", []],
+  ["a", "My dog is crazy.", "Mein Hund ist verrückt.", "My dog is nice, but {crazy}!", "", "", []],
+  ["a", "My name is Luke.", "Ich heiße Luke.", "", "", "", []],
+  ["a", "We're from Greenwich.", "Wir sind aus Greenwich.", "Luke is {from Greenwich}.", "", "", []],
+  ["a", "Where are you from?", "Woher kommst du?; Woher kommt ihr?; Woher kommen Sie?", "{Where are you from}? – We're from Greenwich.", "", "", []],
+  ["a", "Are you on holiday?", "Sind Sie im Urlaub?; Seid ihr im Urlaub?; Bist du im Urlaub?", "Pia is {on holiday} in London.", "", "", []],
+  ["a", "yes", "ja", "", "", "", []],
+  ["a", "I'm here with my parents.", "Ich bin mit meinen Eltern hier.", "", "", "", []],
+  ["a", "How old are you?", "Wie alt bist du?; Wie alt sind Sie?", "", "", "Achte auf die Verbindung zwischen den Wörtern beim Sprechen.", []],
+  ["a", "You too?", "Du auch?", "", "", "Satzstellung: Are you ten too, Luke?", []],
+  ["a", "no", "nein", "", "", "no ↔ yes", []],
+  ["a", "German", "deutsch; Deutsche/r", "Are you {German}? – Yes, I'm from Cologne.", "", "", []],
+  ["a", "different", "anders; unterschiedlich; verschieden", "Dogs and cats are {different}.", "", "", []],
+  ["a", "I'm English.", "Ich bin Engländer/in.", "Are you English? – No, I'm {German}.", "", "", []],
+  ["a", "one", "eins", "", "", "", []],
+  ["a", "two", "zwei", "", "", "", []],
+  ["a", "three", "drei", "", "", "", []],
+  ["a", "four", "vier", "", "", "", []],
+  ["a", "five", "fünf", "", "", "", []],
+  ["a", "six", "sechs", "", "", "", []],
+  ["a", "seven", "sieben", "", "", "", []],
+  ["a", "eight", "acht", "", "", "", []],
+  ["a", "nine", "neun", "", "", "", []],
+  ["a", "ten", "zehn", "", "", "", []],
+  ["a", "eleven", "elf", "", "", "", []],
+  ["a", "twelve", "zwölf", "", "", "", []],
+  ["a", "I love dogs.", "Ich liebe Hunde.", "I {love} dogs.", "", "", []],
+  ["a", "Dogs love squirrels.", "Hunde lieben Eichhörnchen.", "Look, a squirrel! I love {squirrels}.", "", "", []],
+  ["a", "That was close!", "Das war knapp!", "", "", "", []],
+  ["a", "animal", "Tier", "Cats and dogs are {animals}.", "", "", []],
+  ["a", "Thank you.", "Danke.", "Here's your ball. – Oh, {thank you}.", "", "", []],
+  ["a", "Pia is a girl.", "Pia ist ein Mädchen.", "Is Olivia a {girl} from Germany? – No, Olivia is from Greenwich.", "", "", []],
+  ["a", "a girl from Germany", "ein Mädchen aus Deutschland", "", "", "", []],
+  ["a", "school", "Schule", "Pia is a girl from {school}. – No, Pia is a girl from Germany.", "", "", []],
+  ["a", "Greenwich Park is big.", "Der Greenwich-Park ist groß.", "Sherlock is a {big} dog.", "", "", []],
+  ["a", "Cycling is great in Greenwich Park.", "Radfahren ist toll im Greenwich-Park.", "", "", "", []],
+  ["a", "I don't like cats.", "Ich mag Katzen nicht.", "", "", "", []],
+  ["a", "My favourite animals are dogs.", "Meine Lieblingstiere sind Hunde.", "", "", "", []],
+  ["a", "I can see the park.", "Ich kann den Park sehen.", "", "", "", []],
+  ["a", "I can see the park from my bedroom.", "Ich kann den Park von meinem Schlafzimmer aus sehen.", "", "", "", []],
+  ["a", "What's that?", "Was ist das?", "A squirrel? {What's that}?", "", "", []],
+  ["a", "Let's go!", "Los geht's!; Gehen wir!", "A boating lake? Great, {let's go}!", "", "", []],
+  ["a", "This is fun!", "Das macht Spaß!", "", "", "", []],
+  ["a", "puzzle", "Rätsel", "", "", "", []],
+  ["a", "rat", "Ratte", "", "", "", []],
+  ["a", "I'm not scared of dogs.", "Ich habe keine Angst vor Hunden.", "", "", "", []],
+  ["a", "I'm scared of cats.", "Ich habe Angst vor Katzen.", "", "", "", []],
+  ["a", "Worms are OK.", "Würmer sind OK.", "", "", "", []],
+  ["a", "Rabbits are nice.", "Kaninchen sind nett.", "", "", "", []],
+  ["a", "They're my friends.", "Sie sind meine Freunde.", "", "", "", []],
+  ["a", "See you!", "Wir sehen uns!; Tschüss!", "", "", "", []],
+  ["a", "word", "Wort", "", "", "", []],
+  ["a", "hamster", "Hamster", "", "", "", []],
+  ["a", "horse", "Pferd", "", "", "", []],
+  ["a", "cat", "Katze", "", "", "", []],
+  ["a", "worm", "Wurm", "", "", "", []],
+  ["a", "parrot", "Papagei", "", "", "", []],
+  ["a", "bear", "Bär", "", "", "", []],
+  ["a", "mouse", "Maus", "", "", "", []],
+  ["a", "rabbit", "Kaninchen", "", "", "", []],
+  ["a", "dog", "Hund", "", "", "", []],
+  ["a", "budgie", "Wellensittich", "", "", "", []],
+  ["a", "squirrel", "Eichhörnchen", "", "", "", []],
+  ["a", "I love skating. It's great.", "Inlineskaten ist toll.", "", "", "", []],
+  ["a", "Let's play football.", "Lass uns Fußball spielen.", "", "", "", []],
+  ["a", "The same – different", "der-/die-/dasselbe; der-/die-/das andere", "", "", "", []],
+  ["a", "colour", "Farbe", "", "", "", []],
+  ["a", "What's your favourite colour?", "Was ist deine Lieblingsfarbe?", "", "", "", []],
+  ["a", "black", "schwarz", "", "", "", []],
+  ["a", "brown", "braun", "", "", "", []],
+  ["a", "green", "grün", "", "", "", []],
+  ["a", "grey", "grau", "", "", "", []],
+  ["a", "purple", "lila", "", "", "", []],
+  ["a", "orange", "orange", "", "", "", []],
+  ["a", "pink", "pink", "", "", "", []],
+  ["a", "red", "rot", "", "", "", []],
+  ["a", "yellow", "gelb", "", "", "", []],
+  ["a", "white", "weiß", "", "", "", []],
+  ["a", "picture", "Bild; Foto", "My dog is in the {picture} (not: on).", "", "", []],
+  ["a", "people", "Leute; Menschen", "{People} like dogs and cats. But not rats!", "", "", []],
+  ["a", "things", "Dinge; Sachen", "Talk about the {things} in the picture.", "", "", []],
+  ["a", "number", "Zahl; Nummer", "What is your favourite {number}, Luke?", "", "", []],
+  ["a", "book number eight is pink.", "Buch Nummer acht ist rosa.", "", "", "", []],
+  ["a", "I can see Sherlock.", "Ich kann Sherlock sehen.", "", "", "", []],
+  ["a", "four spots", "vier Punkte", "", "", "", []],
+  ["a", "Can you name four sports?", "Kannst du vier Sportarten nennen?", "", "", "", []],
+  ["a", "Say your phone number.", "Sage deine Telefonnummer.", "{Say} your name.", "", "", []],
+  ["a", "What colour is your English book?", "Welche Farbe hat dein Englischbuch?", "", "", "", []],
+  ["a", "alphabet", "Alphabet", "", "", "Fr. alphabet", []],
+  ["a", "Rap like me.", "Rappe/Rappt wie ich.", "", "", "", []],
+  ["b", "at home", "zu Hause; daheim", "Luke is {at home}.", "", "", []],
+  ["b", "family", "Familie", "Pia and her parents are a {family}.", "", "", []],
+  ["b", "to live", "wohnen; leben", "We {live} in Greenwich.", "", "", []],
+  ["b", "a flat", "Wohnung", "", "", "", []],
+  ["b", "in the street", "in der Straße; auf der Straße", "Sherlock is in the {street}.", "", "", []],
+  ["b", "house", "Haus", "Luke's {house} is in Greenwich.", "", "", []],
+  ["b", "door", "Tür", "That's his house – with the green {door}.", "", "", []],
+  ["b", "TV", "Fernsehen; Fernseher", "", "", "", []],
+  ["b", "chair", "Stuhl; Sessel", "", "", "", []],
+  ["b", "table", "Tisch", "Can you see a {table} in the picture?", "", "", []],
+  ["b", "shower", "Dusche", "It's fun for Sherlock in the bath and in the {shower} too!", "", "", []],
+  ["b", "bath", "Bad; Badewanne", "", "", "", []],
+  ["b", "toilet", "Toilette", "Go to the {toilet}, please!", "", "", []],
+  ["b", "bed", "Bett", "That's a nice {bed}.", "", "", []],
+  ["b", "clock", "Uhr", "That's a nice {clock}.", "", "", []],
+  ["b", "wardrobe", "Kleiderschrank; Schrank", "Look! My room! Where's the {wardrobe}?", "", "", []],
+  ["b", "cupboard", "Küchenschrank; Schrank", "I like my new {cupboard}.", "", "", []],
+  ["b", "cooker", "Herd", "", "", "", []],
+  ["b", "living room", "Wohnzimmer", "", "", "", []],
+  ["b", "big bedroom", "großes Schlafzimmer", "", "", "", []],
+  ["b", "kitchen", "Küche", "", "", "", []],
+  ["b", "small bedroom", "kleines Schlafzimmer", "", "", "", []],
+  ["b", "bathroom", "Badezimmer", "", "", "", []],
+  ["b", "living room", "Wohnzimmer", "The TV is in the {living room}.", "", "", []],
+  ["b", "bedroom", "Schlafzimmer", "Luke's wardrobe is in his {bedroom}.", "", "", []],
+  ["b", "kitchen", "Küche", "The cooker is in the {kitchen}.", "", "", []],
+  ["b", "bathroom", "Bad; Badezimmer", "", "", "", []],
+  ["b", "good", "gut", "", "", "", []],
+  ["b", "biscuit", "Keks", "Here's a {biscuit} for you, Sherlock. – Woof!", "", "", []],
+  ["b", "under", "unter", "Sherlock! Your ball is {under} the table!", "", "", []],
+  ["b", "on", "auf", "", "", "", []],
+  ["b", "to help", "helfen", "", "", "", []],
+  ["b", "to come", "kommen", "", "", "", []],
+  ["b", "new", "neu", "I'm {new} in London.", "", "", []],
+  ["b", "small", "klein", "", "", "", []],
+  ["c", "sister", "Schwester", "Is Holly Luke's {sister}? – No, Holly is a girl from school.", "", "", []],
+  ["c", "little", "klein", "James is Luke's {little} brother.", "", "", []],
+  ["c", "brother", "Bruder", "James is Luke's little {brother}.", "", "", []],
+  ["c", "father", "Vater", "", "", "", []],
+  ["c", "mother", "Mutter", "", "", "", []],
+  ["c", "cousin", "Cousin/Cousine", "", "", "Fr. cousin (m), cousine (f)", []],
+  ["c", "I am", "ich bin", "", "", "", []],
+  ["c", "only child", "Einzelkind", "", "", "", []],
+  ["c", "dad", "Papa", "", "", "", []],
+  ["c", "she's", "sie ist", "", "", "", []],
+  ["c", "always", "immer; ständig", "", "", "", []],
+  ["c", "she's right", "sie hat Recht", "", "", "", []],
+  ["c", "he's", "er ist", "", "", "", []],
+  ["c", "mum", "Mama", "", "", "", []],
+  ["c", "uncle", "Onkel", "", "", "", []],
+  ["c", "aunt", "Tante", "", "", "", []],
+  ["c", "grandad", "Opa", "", "", "", []],
+  ["c", "grandma", "Oma", "", "", "", []],
+  ["c", "family tree", "Stammbaum", "", "", "", []],
+  ["c", "Tell me about …", "Erzähle mir von …", "", "", "", []],
+  ["c", "nice", "nett", "", "", "", []],
+  ["c", "great", "großartig", "", "", "", []],
+  ["c", "cool", "cool", "", "", "", []],
+  ["c", "OK", "in Ordnung", "", "", "", []],
+  ["c", "crazy", "verrückt", "", "", "", []],
+  ["c", "small", "klein", "", "", "", []],
+  ["c", "big", "groß", "", "", "", []],
+  ["c", "friendly", "freundlich", "", "", "", []],
+  ["c", "clever", "schlau", "", "", "", []],
+  ["c", "silly", "albern; dumm", "", "", "", []],
+  ["c", "short", "klein", "", "", "", []],
+  ["c", "guinea pig", "Meerschweinchen", "", "", "", []],
+  ["c", "quiet", "still; ruhig; leise", "Mice and rabbits are {quiet} animals.", "", "", []],
+  ["c", "language", "Sprache", "English is a {language}.", "", "", []],
+  ["c", "only", "erst; bloß; nur", "", "", "", []],
+  ["c", "wrong", "falsch", "", "", "", []],
+  ["c", "true", "wahr", "That's {true}.", "", "", []],
+  ["c", "very", "sehr", "", "", "", []],
+  ["c", "some", "einige; ein paar; etwas", "", "", "", []],
+  ["c", "of", "von", "", "", "", []],
+  ["c", "to say hello (to)", "grüßen; Grüße ausrichten (an)", "", "", "", []],
+  ["c", "to", "zu; nach; auf; in", "", "", "", []],
+  ["c", "problem", "Problem; Schwierigkeit", "", "", "", []],
+  ["c", "there is/are", "da ist/sind; es gibt", "", "", "", []],
+  ["c", "there", "da; dort; dahin; dorthin", "", "", "", []],
+  ["c", "garden", "Garten", "", "", "", []],
+  ["c", "behind", "hinter", "", "", "", []],
+  ["c", "Mr", "Herr (Anrede)", "", "", "", []],
+  ["c", "Mrs", "Frau (Anrede)", "", "", "", []],
+  ["c", "now", "jetzt; nun", "", "", "", []],
+  ["c", "car", "Auto", "", "", "", []],
+  ["c", "everywhere", "überall; überallhin", "", "", "", []],
+  ["c", "away", "weg; von daheim; noch mal", "", "", "", []],
+  ["c", "floor", "Fußboden", "Look at your room! Your things are everywhere on the {floor}!", "", "", []],
+  ["c", "next to", "neben", "", "", "", []],
+  ["c", "in front of", "vor", "", "", "", []],
+  ["c", "to listen (to)", "zuhören; anhören", "", "", "", []],
+  ["c", "idea", "Idee; Einfall", "", "", "", []],
+  ["c", "loft", "Dachboden", "", "", "", []],
+  ["c", "own", "eigen; -e; -s", "", "", "", []],
+  ["c", "in the middle of", "in der Mitte (von); mitten in", "", "", "", []],
+  ["c", "on the right", "auf der rechten Seite; rechts", "", "", "", []],
+  ["c", "on the left", "auf der linken Seite; links", "", "", "", []],
+  ["c", "wardrobe", "Kleiderschrank; Schrank", "", "", "", []],
+  ["c", "bed", "Bett", "", "", "", []],
+  ["c", "chair", "Stuhl", "", "", "", []],
+  ["c", "table", "Tisch", "", "", "", []],
+  ["c", "lamp", "Lampe", "", "", "", []],
+  ["c", "mirror", "Spiegel", "", "", "", []],
+  ["c", "shelf", "Regal", "", "", "", []],
+  ["c", "shelves", "Regale", "", "", "", []],
+  ["c", "guitar", "Gitarre", "", "", "", []],
+  ["c", "poster", "Poster", "", "", "", []],
+  ["c", "keyboard", "Keyboard", "", "", "", []],
+  ["c", "toy", "Spielzeug", "", "", "", []],
+  ["c", "computer", "Computer", "", "", "", []],
+  ["c", "thirteen", "dreizehn", "", "", "", []],
+  ["c", "fourteen", "vierzehn", "", "", "", []],
+  ["c", "fifteen", "fünfzehn", "", "", "", []],
+  ["c", "sixteen", "sechzehn", "", "", "", []],
+  ["c", "seventeen", "siebzehn", "", "", "", []],
+  ["c", "eighteen", "achtzehn", "", "", "", []],
+  ["c", "nineteen", "neunzehn", "", "", "", []],
+  ["c", "twenty", "zwanzig", "", "", "", []],
+  ["c", "thirty", "dreißig", "", "", "", []],
+  ["c", "forty", "vierzig", "", "", "", []],
+  ["c", "fifty", "fünfzig", "", "", "", []],
+  ["c", "sixty", "sechzig", "", "", "", []],
+  ["c", "eighty", "achtzig", "", "", "", []],
+  ["c", "ninety", "neunzig", "", "", "", []],
+  ["c", "a hundred", "hundert", "", "", "", []],
+  ["c", "armour", "Armour", "", "", "", []],
+  ["c", "wall", "Wand; Mauer", "", "", "", []],
+  ["c", "fridge", "Kühlschrank", "There's only a small {fridge} in our kitchen.", "", "", []],
+  ["c", "address", "Adresse", "", "", "", []],
+  ["c", "his", "sein/-e; ihr/-e", "", "", "", []],
+  ["c", "to remember", "sich erinnern (an); sich merken; denken an", "", "", "", []],
+  ["c", "or", "oder", "", "", "", []],
+  ["c", "more", "mehr; weitere", "", "", "", []],
+  ["d", "fantasy", "Fantasie; Traum", "", "", "", []],
+  ["d", "to draw", "zeichnen", "Let's {draw} a picture.", "", "", []],
+  ["d", "step", "Stufe; Schritt", "", "", "", []],
+  ["d", "busy", "belebt; beschäftigt", "", "", "", []],
+  ["d", "Who … for?", "Für wen …?", "", "", "", []],
+  ["d", "what about", "Wie wäre es, wenn; auf Entdeckungsreise gehen", "", "", "", []],
+  ["d", "to explore", "erforschen; erkunden", "", "", "", []],
+  ["d", "box", "Behälter; Schachtel", "", "", "", []],
+  ["d", "best", "beste/r/s", "", "", "", []],
+  ["d", "bag", "Tasche; Tüte", "What's in Olivia's {bag}?", "", "", []],
+  ["d", "maybe", "vielleicht", "", "", "", []],
+  ["d", "after", "nach; danach", "", "", "", []],
+  ["d", "swimming", "Schwimmen", "", "", "", []],
+  ["d", "outside", "nach draußen; draußen; außer; außerhalb", "", "", "", []],
+  ["d", "awful", "schrecklich; furchtbar", "", "", "", []],
+  ["d", "Don't worry!", "Keine Sorge!", "", "", "", []],
+  ["d", "right", "richtig; korrekt", "", "", "", []],
+  ["d", "ending", "Ende; Schluss (einer Geschichte)", "", "", "", []],
+  ["e", "day", "Tag", "", "", "", []],
+  ["e", "happy", "glücklich; froh; fröhlich", "", "", "", []],
+  ["e", "can't", "kann nicht; können nicht", "He {can't} swim.", "", "", []],
+  ["e", "to meet", "treffen; sich treffen", "", "", "", []],
+  ["e", "to show", "zeigen", "", "", "", []],
+  ["e", "a game", "Spiel", "", "", "", []],
+  ["e", "to want (to)", "wollen; mögen", "", "", "", []],
+  ["e", "to play", "spielen", "", "", "", []],
+  ["e", "boring", "langweilig", "", "", "", []],
+  ["e", "Your time starts now.", "Deine Zeit läuft!", "", "", "", []],
+  ["e", "Try skating!", "Versuch's mit Inlineskating!", "", "", "", []],
+  ["e", "fast", "schnell", "", "", "", []],
+  ["e", "so", "so; also", "", "", "", []],
+  ["e", "I'm sorry.", "Tut mir leid.", "", "", "", []],
+  ["e", "I'm fine.", "Mir geht's gut.", "", "", "", []],
+  ["e", "cute", "niedlich; süß", "", "", "", []],
+  ["e", "lucky", "Glück haben; Glückspilz sein", "", "", "", []],
+  ["e", "text message", "SMS; Kurznachricht", "", "", "", []],
+  ["e", "to read", "lesen", "", "", "", []],
+  ["e", "reading", "Lesen", "", "", "", []],
+  ["e", "music", "Musik", "", "", "", []],
+  ["e", "to help", "zu helfen", "", "", "", []],
+  ["e", "to go swimming", "Schwimmen gehen", "", "", "", []],
+  ["e", "to go skating", "Skaten gehen", "", "", "", []],
+  ["e", "to read", "lesen", "", "", "", []],
+  ["e", "book", "Buch", "", "", "", []],
+  ["e", "to take photos", "fotografieren; Fotos machen", "", "", "", []],
+  ["e", "to watch", "beobachten; (sich) ansehen; zuschauen", "", "", "", []]
+];
+
+// Grammatik: eine Zeile pro Aufgabe.  Satz mit ___ | richtige Antwort | Auswahl (nur bei Auswahlaufgaben, mit / getrennt)
+const G = {
+  g1: { name: "Nomen: Singular und Plural", sub: "a dog – two dogs; a box – two boxes", rows: `
+One ___ is in the garden. (dog)|dog
+Two ___ are in the garden. (dog)|dogs
+One ___ is on the table. (box)|box
+Two ___ are on the table. (box)|boxes
+One ___ is in the room. (boy)|boy
+Two ___ are in the room. (boy)|boys
+One ___ is in the park. (house)|house
+Two ___ are in the park. (house)|houses
+One ___ is under the chair. (mouse)|mouse
+Two ___ are under the chair. (mouse)|mice
+` },
+  g2: { name: "Personalpronomen und to be", sub: "I am, you are, he/she/it is, we/you/they are", rows: `
+I ___ Luke.|am|am/is/are
+You ___ my friend.|are|am/is/are
+He ___ my brother.|is|am/is/are
+She ___ my sister.|is|am/is/are
+It ___ a big house.|is|am/is/are
+We ___ from Greenwich.|are|am/is/are
+They ___ good friends.|are|am/is/are
+I ___ from Germany.|am|am/is/are
+My brother ___ at home.|is|am/is/are
+You ___ cool.|are|am/is/are
+` },
+  g3: { name: "Verneinung von to be", sub: "am not, is not / isn’t, are not / aren’t", rows: `
+I ___ from London. (not)|am not/'m not
+He ___ here. (not)|is not/isn't
+She ___ my sister. (not)|is not/isn't
+It ___ a big garden. (not)|is not/isn't
+We ___ from Greenwich. (not)|are not/aren't
+They ___ good friends. (not)|are not/aren't
+You ___ late. (not)|are not/aren't
+I ___ tired. (not)|am not/'m not
+Luke ___ from Germany. (not)|is not/isn't
+The dogs ___ in the house. (not)|are not/aren't
+` },
+  g4: { name: "Entscheidungsfragen mit to be", sub: "Are you ...? Is he ...? Kurzantworten", rows: `
+___ you from Greenwich?|Are|Am/Is/Are
+___ he your brother?|Is|Am/Is/Are
+___ she your sister?|Is|Am/Is/Are
+___ it your dog?|Is|Am/Is/Are
+___ they your friends?|Are|Am/Is/Are
+___ we in London?|Are|Am/Is/Are
+Are you from Greenwich? Yes, I ___.|am
+Is Luke from Cologne? No, he ___.|is not/isn't
+Are they your friends? Yes, they ___.|are
+Is she your sister? No, she ___.|is not/isn't
+` },
+  g5: { name: "Fragen mit Fragewörtern", sub: "who, where, what, how, how old", rows: `
+___ are you, Tina? – I'm fine.|How
+___ are you from? – I'm from Greenwich.|Where
+___ is your name? – My name is Luke.|What
+___ is always quiet? – Tom.|Who
+___ is this? – It's a school.|What
+___ old are you, Dave? – I'm eleven.|How
+___ is your ball? – In the garden.|Where
+___ are you? – I'm in the living room.|Where
+___ is your friend? – It's Olivia.|Who
+___ is in the bath? – The dog.|Who
+` },
+  g6: { name: "Possessivbegleiter", sub: "my, your, his, her, its, our, their", rows: `
+I am Luke. This is ___ room.|my
+You are nice. Is this ___ dog?|your
+He is Luke. ___ name is Luke.|His
+She is Pia. ___ name is Pia.|Her
+It is a dog. ___ ball is red.|Its
+We are friends. This is ___ school.|our
+They are Anna and Jack. ___ names are Anna and Jack.|Their
+I am from Greenwich. ___ house is in Greenwich.|My
+You are from London. Is this ___ house?|your
+She is my sister. ___ room is nice.|Her
+` },
+  g7: { name: "Aussagesätze, Fragen und Kurzantworten mit there is / there are", sub: "There is / There are; Is there? Are there?", rows: `
+There ___ a mouse under the chair.|is|is/are
+There ___ two mice under the chair.|are|is/are
+There ___ a problem.|is|is/are
+There ___ two boys in the garden.|are|is/are
+___ there a mouse under the chair?|Is|Is/Are
+___ there two mice under the chair?|Are|Is/Are
+Is there a mouse under the chair? Yes, there ___.|is
+Is there a mouse under the chair? No, there ___.|is not/isn't
+Are there two mice under the chair? Yes, there ___.|are
+Are there two mice under the chair? No, there ___.|are not/aren't
+` },
+  g8: { name: "Der unbestimmte Artikel", sub: "a vor Konsonant, an vor Vokal", rows: `
+This is ___ problem.|a|a/an
+This is ___ uniform.|a|a/an
+This is ___ new boy.|a|a/an
+This is ___ animal.|an|a/an
+This is ___ English test.|an|a/an
+This is ___ house.|a|a/an
+This is ___ aunt.|an|a/an
+This is ___ frog.|a|a/an
+This is ___ exercise book.|an|a/an
+This is ___ address.|an|a/an
+` },
+  g9: { name: "Der bestimmte Artikel", sub: "the; im Singular und Plural gleich", rows: `
+This is ___ new boy.|the
+___ boy is from Greenwich.|The
+I have a dog. ___ dog is nice.|The
+There is a mouse. ___ mouse is under the chair.|The
+I have two books. ___ books are in my room.|The
+This is a house. ___ house is big.|The
+I have an exercise book. ___ exercise book is new.|The
+There are two boys. ___ boys are friends.|The
+` },
+  g10: { name: "Besitz und Zugehörigkeit mit have got", sub: "have got / has got", rows: `
+I ___ a dog.|have got/'ve got
+You ___ a nice room.|have got/'ve got
+He ___ two friends.|has got/'s got
+She ___ a new boy.|has got/'s got
+It ___ a nice colour.|has got/'s got
+We ___ a house.|have got/'ve got
+They ___ a cat.|have got/'ve got
+Luke ___ a dog.|has got/'s got
+My sister ___ a school uniform.|has got/'s got
+I ___ an exercise book.|have got/'ve got
+` },
+  g11: { name: "Die Verneinung von have got", sub: "haven’t got / hasn’t got", rows: `
+I ___ a pet.|have not got/haven't got
+You ___ a dog.|have not got/haven't got
+He ___ a cat.|has not got/hasn't got
+She ___ a nice colour.|has not got/hasn't got
+It ___ a ball.|has not got/hasn't got
+We ___ a big garden.|have not got/haven't got
+They ___ a nice house.|have not got/haven't got
+Luke ___ a pet.|has not got/hasn't got
+` },
+  g12: { name: "Entscheidungsfragen und Kurzantworten mit have got", sub: "Have you got ...? Has she got ...?", rows: `
+___ you got a pet?|Have|Have/Has
+___ he got a blue school uniform?|Has|Have/Has
+___ she got a dog?|Has|Have/Has
+___ they got a big house?|Have|Have/Has
+___ we got an exercise book?|Have|Have/Has
+Have you got a pet? Yes, I ___.|have
+Have you got a pet? No, I ___.|have not/haven't
+Has he got a blue school uniform? Yes, he ___.|has
+Has she got a dog? No, she ___.|has not/hasn't
+Have they got a house? Yes, they ___.|have
+` },
+  g13: { name: "Die Fragewörter who, what und whose", sub: "wer / was / wessen", rows: `
+___ is the man? – It's Mr Fluff.|Who
+___ is on Olivia's desk? – A book.|What
+___ has got a pet? – Luke.|Who
+___ is in the room? – My sister.|Who
+___ is this? – It's a mouse.|What
+___ is your name? – My name is Luke.|What
+___ dog is this? – It's Luke's dog.|Whose
+___ room is this? – It's Pia's room.|Whose
+___ has got a big house? – Anna.|Who
+___ is under the chair? – A mouse.|What
+` },
+  g14: { name: "Die Modalverben can und can’t", sub: "Fähigkeit, Erlaubnis und Verbot", rows: `
+Holly ___ skate fast.|can
+Dave ___ meet Luke. (not)|cannot/can't
+___ you sing?|Can|Can/Can't
+Yes, I ___.|can
+No, we ___. (use phones at school)|cannot/can't
+You ___ call me Jay.|can
+We ___ use phones at school. (not)|cannot/can't
+I ___ show Jay the school.|can
+You ___ pay here.|can
+They ___ buy sweets at school.|can
+___ we use phones at school?|Can|Can/Can't
+No, we ___.|cannot/can't
+` },
+  mix: { name: "Gemischt", sub: "alle Themen durcheinander", rows: 'ALLE' },
+};
+// ===================== DATEN ENDE =====================
+
+document.title = PAGE_TITLE;
+const WORDS = V.map(([u, fr, de, ex, exde, note, alt]) => { const m = (ex || '').match(/\{(.+?)\}/); return { u, fr, de, ex: ex ? ex.replace(/[{}]/g, '') : '', exde: exde || '', note: note || '', alt: alt || [], gap: m ? m[1] : null, before: m ? ex.slice(0, m.index) : '', after: m ? ex.slice(m.index + m[0].length) : '' }; });
+if (G.mix && G.mix.rows.trim() === 'ALLE') G.mix.rows = Object.keys(G).filter(k => k !== 'mix').map(k => G[k].rows).join('\n');
+const GR = {}; Object.keys(G).forEach(k => GR[k] = G[k].rows.split('\n').map(l => l.trim()).filter(Boolean).map(l => { const [s, a, o] = l.split('|'); return { s, a: a.split('/').map(x => x.trim()), o: o ? o.split('/').map(x => x.trim()) : null }; }));
+const LANGDE = 'Englisch', PH = 'English', CHARS = [];
+const base = s => s.toLowerCase().replace(/[’‘`´]/g, "'").replace(/\(.*?\)/g, '').replace(/[.!?,;:]/g, '').replace(/\s+/g, ' ').trim();
+const gn = base;
+const wn = s => base(s).replace(/^(to|the|a|an)\s+/, '');   // "to", "the", "a" am Anfang sind egal
+
+
+
+const FMT = { cards: 'Karten', type: 'Eintippen', fill: 'Lückensatz' };
+const FMTHINT = { cards: 'Deutsches Wort sehen, ' + LANGDE + ' erinnern, umdrehen.', type: 'Deutsches Wort sehen, ' + LANGDE + ' eintippen. Ein falscher Buchstabe zählt als Fehler.', fill: 'Lücke im Beispielsatz füllen. Ein falscher Buchstabe zählt als Fehler.' };
+
+const shuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const wAns = (w, fmt) => (fmt === 'fill' && w.gap ? [w.gap] : [w.fr].concat(w.alt)).map(wn).filter(Boolean);
+
+function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.words) return s; } catch (e) {} return { words: {}, gram: {}, hist: [] }; }
+function persist() { try { localStorage.setItem(KEY, JSON.stringify(S.store)); } catch (e) {} }
+const S = { screen: 'home', wSrc: 'all', wN: 15, wFmt: 'cards', sess: null, open: null, store: load() };
+const acc = r => { const n = r.ok + r.bad; return n ? Math.round(r.ok / n * 100) + ' %' : '–'; };
+
+function pool(src, fmt) {
+  const w = S.store.words;
+  let p = WORDS.filter(x => src === 'all' || src === 'err' || x.u === src);
+  if (src === 'err') p = p.filter(x => w[x.fr] && w[x.fr].last === 0);
+  if (fmt === 'fill') p = p.filter(x => x.gap);
+  return p;
+}
+function go(screen) { S.screen = screen; S.open = null; if (screen !== 'play' && screen !== 'result') S.sess = null; render(); window.scrollTo(0, 0); }
+function startW(src, fmt) {
+  src = src || S.wSrc; fmt = fmt || S.wFmt;
+  const w = S.store.words;
+  const pr = x => { const r = w[x.fr]; return !r ? 1 : r.last === 0 ? 0 : 2; };
+  const items = shuf(pool(src, fmt)).sort((a, b) => pr(a) - pr(b)).slice(0, S.wN >= 999 ? 999 : S.wN);
+  if (!items.length) return;
+  S.sess = { kind: 'w', fmt, src, items, i: 0, checked: false, ok: null, flipped: false, log: [] };
+  go('play');
+}
+function startG(key) { S.sess = { kind: 'g', fmt: 'gram', topic: key, items: shuf(GR[key]), i: 0, checked: false, ok: null, log: [] }; go('play'); }
+function record(id, ok, kind) {
+  const t = kind === 'w' ? S.store.words : S.store.gram;
+  const r = t[id] || (t[id] = { ok: 0, bad: 0, last: 1 });
+  ok ? r.ok++ : r.bad++; r.last = ok ? 1 : 0; persist();
+}
+function finish(log) {
+  const s = S.sess; const ok = log.filter(x => x.ok).length;
+  const label = s.kind === 'w' ? 'Wortschatz · ' + (s.src === 'err' ? 'Fehlerwörter' : SRC[s.src] || '') : 'Grammatik · ' + G[s.topic].name;
+  S.store.hist = [{ t: Date.now(), label, ok, n: log.length }].concat(S.store.hist).slice(0, 30); persist();
+  s.log = log; s.done = true; go('result');
+}
+function judge(s, it, val) {
+  if (s.kind === 'w') { const v = wn(val); return !!v && wAns(it, s.fmt).includes(v); }
+  const v = gn(val); return !!v && it.a.map(gn).includes(v);
+}
+function answer(ok, val) {
+  const s = S.sess; if (s.checked) return; const it = s.items[s.i];
+  record(s.kind === 'w' ? it.fr : s.topic, ok, s.kind);
+  s.log.push({ ok, it, val }); s.checked = true; s.ok = ok; s.val = val; render();
+}
+function check() { const s = S.sess; if (!s || s.checked) return; const el = document.getElementById('ans'); if (!el || !el.value.trim()) return; answer(judge(s, s.items[s.i], el.value), el.value); }
+function next() {
+  const s = S.sess; const i = s.i + 1;
+  if (i >= s.items.length) return finish(s.log);
+  s.i = i; s.checked = false; s.ok = null; s.flipped = false; s.val = null; render();
+}
+function cardNext(ok) {
+  const s = S.sess; record(s.items[s.i].fr, ok, 'w'); s.log.push({ ok, it: s.items[s.i] });
+  const i = s.i + 1; if (i >= s.items.length) return finish(s.log);
+  s.i = i; s.flipped = false; render();
+}
+function retry() {
+  const s = S.sess; s.items = s.log.filter(x => !x.ok).map(x => x.it); s.i = 0; s.checked = false; s.ok = null; s.flipped = false; s.log = []; s.done = false; s.val = null; go('play');
+}
+
+/* ---------- views ---------- */
+const btn = (a, v, label, cls) => '<button class="btn ' + (cls || '') + '" data-a="' + a + '"' + (v !== undefined ? ' data-v="' + esc(v) + '"' : '') + '>' + label + '</button>';
+
+function vHome() {
+  const w = S.store.words;
+  const errN = WORDS.filter(x => w[x.fr] && w[x.fr].last === 0).length;
+  const mastered = WORDS.filter(x => { const r = w[x.fr]; return r && r.ok - r.bad >= 2; }).length;
+  return '<div class="col" style="gap:28px">' +
+    '<div class="col" style="gap:8px;padding-top:20px"><h6 class="acc">' + esc(KICKER) + '</h6><h1>' + esc(GREETING) + '</h1><div class="sp" style="margin-top:12px"></div></div>' +
+    '<div class="grid">' +
+      '<div class="card col" style="align-items:flex-start;padding:28px"><span style="font-size:28px;line-height:1">🃏</span><h3>Wortschatz</h3><p class="mute">' + WORDS.length + ' Wörter · ' + mastered + ' gelernt</p>' + btn('wsetup', undefined, 'Üben →', 'pri') + '</div>' +
+      '<div class="card col" style="align-items:flex-start;padding:28px"><span style="font-size:28px;line-height:1">✏️</span><h3>Grammatik</h3><p class="mute">' + esc(GRAMMAR_SUB) + '</p>' + btn('gsetup', undefined, 'Üben →', 'pri') + '</div>' +
+    '</div>' +
+    '<div class="row">' + (errN ? btn('start-err', undefined, '↺ ' + errN + ' Fehlerwörter wiederholen') : '') + btn('parent', undefined, '📊 Elternbereich', 'ghost') + '</div>' +
+  '</div>';
+}
+function vWSetup() {
+  const w = S.store.words;
+  const errN = WORDS.filter(x => w[x.fr] && w[x.fr].last === 0).length;
+  const srcs = ['all'].concat(SRCK).concat(errN ? ['err'] : []);
+  const total = pool(S.wSrc, S.wFmt).length;
+  const counts = [10, 15, 30, 999];
+  return '<div class="col" style="gap:24px;padding-top:8px">' + btn('home', undefined, '← Zurück', 'ghost') + '<h2>Wortschatz</h2>' +
+    '<div class="col" style="gap:10px"><h6>Welche Wörter</h6><div class="row">' + srcs.map(k => btn('wsrc', k, k === 'err' ? 'Fehlerwörter (' + errN + ')' : SRC[k], S.wSrc === k ? 'sel' : '')).join('') + '</div></div>' +
+    '<div class="col" style="gap:10px"><h6>Aufgabenform</h6><div class="row">' + Object.keys(FMT).map(k => btn('wfmt', k, FMT[k], S.wFmt === k ? 'sel' : '')).join('') + '</div><p class="hint">' + FMTHINT[S.wFmt] + '</p></div>' +
+    '<div class="col" style="gap:10px"><h6>Wörter pro Runde</h6><div class="row">' + counts.map(n => btn('wn', n, n === 999 ? 'Alle Wörter (' + total + ')' : n, S.wN === n ? 'sel' : '')).join('') + '</div><p class="hint">Mit „Alle Wörter“ übst du den ganzen Bereich in einer Runde. Neue und falsch beantwortete Wörter kommen zuerst.</p></div>' +
+    '<div>' + btn('start-w', undefined, 'Starten · ' + Math.min(S.wN, total) + ' Wörter →', 'pri') + '</div></div>';
+}
+function vGSetup() {
+  return '<div class="col" style="gap:24px;padding-top:8px">' + btn('home', undefined, '← Zurück', 'ghost') + '<h2>Grammatik</h2><div class="col" style="gap:12px">' +
+    Object.keys(G).map(k => { const r = S.store.gram[k]; return '<button class="card topic" data-a="start-g" data-v="' + k + '"><b>' + esc(G[k].name) + '</b><span>' + esc(G[k].sub) + (r ? ' · ' + acc(r) : '') + '</span></button>'; }).join('') +
+    '</div></div>';
+}
+function vBars() {
+  const s = S.sess; const w = s.kind === 'w'; const log = s.log;
+  const okN = log.filter(x => x.ok).length, badN = log.length - okN, m = Math.max(okN, badN, 1);
+  const lab = x => w ? x.it.fr : x.it.s.split(' ___')[0];
+  return '<div class="bars">' + [['ok', 'richtig', okN, 'var(--accent)', 'var(--accent-l)', 'Richtig beantwortet'], ['bad', 'falsch', badN, 'var(--bad)', '#cfd3e5', 'Falsch beantwortet']].map(([k, label, n, color, nc, title]) => {
+    const ws = log.filter(x => (k === 'ok') === !!x.ok).map(lab);
+    return '<div class="bar" data-a="bar" data-v="' + k + '"><div class="pop' + (S.open === k ? ' on' : '') + '"><h6>' + title + '</h6>' + (ws.length ? ws.map(x => '<div>' + esc(x) + '</div>').join('') : '<div class="mute">Noch keine</div>') + '</div>' +
+      '<span class="n" style="color:' + nc + '">' + n + '</span><div class="b" style="height:' + Math.round(n / m * 80) + 'px;background:' + color + '"></div><span class="l">' + label + '</span></div>';
+  }).join('') + '</div>';
+}
+function vPlay() {
+  const s = S.sess; const it = s.items[s.i]; const w = s.kind === 'w';
+  const cards = w && s.fmt === 'cards', fill = w && s.fmt === 'fill', choice = !w && !!it.o, gtyped = !w && !it.o;
+  const typed = (w && !cards) || gtyped;
+  let h = '<div class="col" style="gap:28px;padding-top:8px">';
+  h += '<div class="top">' + btn('quit', undefined, '✕ Zum Menü') + '<div class="prog"><i style="width:' + Math.round(s.i / s.items.length * 100) + '%"></i></div><span class="mute" style="font-size:13px;min-width:48px;text-align:right">' + (s.i + 1) + ' / ' + s.items.length + '</span></div>';
+  h += '<div class="col" style="gap:20px;min-height:260px"><h6 class="acc">' + (w ? (cards ? 'Wort' : fill ? 'Lückensatz' : LANGDE + ' eintippen') : esc(G[s.topic].name)) + '</h6>';
+  if (w) h += '<div class="main">' + esc(it.de) + '</div>';
+  if (cards) {
+    if (s.flipped) {
+      h += '<div class="card col" style="gap:10px"><div class="back">' + esc(it.fr) + '</div>' + (it.ex ? '<div style="font-size:18px">' + esc(it.ex) + '</div>' : '') + (it.exde ? '<div class="mute">' + esc(it.exde) + '</div>' : '') + (it.note ? '<div class="note">' + esc(it.note) + '</div>' : '') + '</div>' +
+        '<div class="row">' + btn('know', undefined, '✓ Gewusst', 'pri') + btn('notyet', undefined, '↺ Noch nicht') + '</div>';
+    } else h += '<div>' + btn('flip', undefined, 'Umdrehen') + '</div>';
+  }
+  if (typed) {
+    const dis = s.checked ? ' disabled' : '';
+    let pre = '', post = '';
+    if (fill) { pre = it.before.trim(); post = it.after.trim(); } else if (gtyped) { const gs = it.s.split('___'); pre = gs[0].trim(); post = (gs[1] || '').trim(); }
+    h += '<div class="sent">' + (pre ? '<span>' + esc(pre) + '</span>' : '') +
+      '<input id="ans" class="input' + (fill || gtyped ? ' sm' : '') + '" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="' + (fill || gtyped ? '…' : PH) + '" value="' + esc(s.val || '') + '"' + dis + '>' +
+      (post ? '<span>' + esc(post) + '</span>' : '') + '</div>';
+    if (!s.checked && CHARS.length) h += '<div class="row" style="gap:8px">' + CHARS.map(c => '<button class="btn key" data-a="char" data-v="' + c + '">' + c + '</button>').join('') + '</div>';
+  }
+  if (choice) {
+    const gs = it.s.split('___');
+    h += '<div class="main">' + esc(gs[0].trim()) + ' ___ ' + esc((gs[1] || '').trim()) + '</div><div class="col" style="gap:10px;max-width:420px">' +
+      it.o.map((o, idx) => { let st = ''; if (s.checked) { if (o === it.a[0]) st = 'background:var(--accent-d);border-color:var(--accent)'; else if (o === s.val) st = 'opacity:.5;text-decoration:line-through'; else st = 'opacity:.45'; } return '<button class="btn opt" style="' + st + '" data-a="choice" data-v="' + idx + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+  }
+  if (s.checked && !cards) {
+    const correct = w ? (fill && it.gap ? it.gap : it.fr) : it.a.join(' / ');
+    const txt = s.ok ? (w && it.ex ? it.fr + ' · ' + it.ex : '') : 'Richtig: ' + correct + (w && it.note ? ' · ' + it.note : '');
+    h += '<div class="fb" style="box-shadow:0 0 0 1px ' + (s.ok ? 'var(--accent)' : 'var(--mute)') + '"><span class="ic" style="color:' + (s.ok ? 'var(--accent)' : 'var(--mute)') + '">' + (s.ok ? '✓' : '✗') + '</span><div><div style="font-weight:600">' + (s.ok ? 'Richtig' : 'Nicht ganz') + '</div>' + (txt ? '<div style="color:#cfd3e5">' + esc(txt) + '</div>' : '') + '</div></div>';
+  }
+  h += '</div>';
+  if (typed && !s.checked) h += '<div>' + btn('check', undefined, 'Prüfen', 'pri') + '</div>';
+  if (s.checked && !cards) h += '<div>' + btn('next', undefined, (s.i + 1 >= s.items.length ? 'Ergebnis' : 'Weiter') + ' →', 'pri') + '</div>';
+  h += vBars() + '</div>';
+  return h;
+}
+function vResult() {
+  const s = S.sess; const ok = s.log.filter(x => x.ok).length, n = s.log.length, bad = s.log.filter(x => !x.ok); const w = s.kind === 'w';
+  return '<div class="col" style="gap:24px;padding-top:20px"><h6 class="acc">' + (w ? 'Wortschatz' : esc(G[s.topic].name)) + '</h6>' +
+    '<div class="row" style="align-items:baseline;gap:14px"><span class="score">' + ok + '</span><span class="mute" style="font-size:22px">/ ' + n + '</span></div>' +
+    '<p style="color:#cfd3e5">' + (ok === n ? 'Alles richtig.' : ok / n >= 0.7 ? 'Gut. Die Fehler unten kurz wiederholen.' : 'Die Fehler unten noch einmal üben.') + '</p>' +
+    (bad.length ? '<div class="card col" style="gap:10px"><h6>Zum Wiederholen</h6>' + bad.map(x => '<div class="mr"><span>' + esc(w ? x.it.de : x.it.s) + '</span><span>' + esc(w ? x.it.fr : x.it.a[0]) + '</span></div>').join('') + '</div>' : '') +
+    '<div class="row">' + (bad.length ? btn('retry', undefined, '↺ Fehler wiederholen', 'pri') : '') + btn('again', undefined, 'Neue Runde') + btn('home', undefined, 'Zum Menü', 'ghost') + '</div></div>';
+}
+function vParent() {
+  const st = S.store;
+  const rows = SRCK.map(u => { const ws = WORDS.filter(x => x.u === u); let ok = 0, bad = 0, m = 0; ws.forEach(x => { const r = st.words[x.fr]; if (r) { ok += r.ok; bad += r.bad; if (r.ok - r.bad >= 2) m++; } }); return '<tr><td>' + esc(SRC[u]) + '</td><td>' + ws.length + '</td><td>' + m + '</td><td>' + acc({ ok, bad }) + '</td></tr>'; }).join('');
+  const gram = Object.keys(G).map(k => { const r = st.gram[k] || { ok: 0, bad: 0 }; return '<tr><td>' + esc(G[k].name) + '</td><td>' + (r.ok + r.bad) + '</td><td>' + acc(r) + '</td></tr>'; }).join('');
+  const weak = WORDS.filter(x => { const r = st.words[x.fr]; return r && r.bad > 0 && r.bad >= r.ok; }).slice(0, 20);
+  const hist = st.hist.slice(0, 8);
+  return '<div class="col" style="gap:28px;padding-top:8px">' + btn('home', undefined, '← Zurück', 'ghost') + '<h2>Elternbereich</h2>' +
+    '<div class="col" style="gap:10px"><h6>Wortschatz</h6><table><thead><tr><th>Bereich</th><th>Wörter</th><th>Gelernt</th><th>Trefferquote</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '<div class="col" style="gap:10px"><h6>Grammatik</h6><table><thead><tr><th>Thema</th><th>Aufgaben</th><th>Trefferquote</th></tr></thead><tbody>' + gram + '</tbody></table></div>' +
+    '<div class="col" style="gap:10px"><h6>Schwierige Wörter</h6>' + (weak.length ? '<div class="row" style="gap:8px">' + weak.map(x => '<span class="tag">' + esc(x.fr) + '</span>').join('') + '</div>' : '<p class="mute">Noch keine Fehler erfasst.</p>') + '</div>' +
+    '<div class="col" style="gap:10px"><h6>Letzte Runden</h6>' + (hist.length ? '<table><tbody>' + hist.map(h => '<tr><td>' + new Date(h.t).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) + '</td><td>' + esc(h.label) + '</td><td>' + h.ok + ' / ' + h.n + '</td></tr>').join('') + '</tbody></table>' : '<p class="mute">Noch keine Runden.</p>') + '</div>' +
+    '<div>' + btn('reset', undefined, '🗑 Ergebnisse zurücksetzen', 'ghost') + '</div></div>';
+}
+function render() {
+  const v = { home: vHome, wsetup: vWSetup, gsetup: vGSetup, play: vPlay, result: vResult, parent: vParent }[S.screen];
+  document.getElementById('app').innerHTML = v();
+  const el = document.getElementById('ans'); if (el && !el.disabled) el.focus();
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-a]'); if (!t) return;
+  const a = t.dataset.a, v = t.dataset.v, s = S.sess;
+  switch (a) {
+    case 'home': case 'wsetup': case 'gsetup': case 'parent': return go(a);
+    case 'quit': return go('home');
+    case 'wsrc': S.wSrc = v; return render();
+    case 'wfmt': S.wFmt = v; return render();
+    case 'wn': S.wN = +v; return render();
+    case 'start-w': return startW();
+    case 'start-g': return startG(v);
+    case 'start-err': S.wSrc = 'err'; return startW('err', 'type');
+    case 'flip': s.flipped = true; return render();
+    case 'know': return cardNext(true);
+    case 'notyet': return cardNext(false);
+    case 'check': return check();
+    case 'next': return next();
+    case 'choice': { const it = s.items[s.i]; const o = it.o[+v]; return answer(o === it.a[0], o); }
+    case 'char': { const el = document.getElementById('ans'); if (el && !el.disabled) { el.value += v; el.focus(); } return; }
+    case 'bar': S.open = S.open === v ? null : v; return render();
+    case 'retry': return retry();
+    case 'again': return s.kind === 'w' ? startW(s.src, s.fmt) : startG(s.topic);
+    case 'reset': if (confirm('Alle gespeicherten Ergebnisse löschen?')) { S.store = { words: {}, gram: {}, hist: [] }; persist(); render(); } return;
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || S.screen !== 'play' || !S.sess) return;
+  if (S.sess.checked) { e.preventDefault(); next(); }
+  else if (e.target && e.target.id === 'ans') check();
+});
+render();
+</script>
+</body>
+</html>
